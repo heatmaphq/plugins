@@ -32,18 +32,22 @@
 - (void)setRadius:(NSUInteger)radius {
   [_heatmapLayer setRadius:radius];
   [_heatmapLayer clearTileCache];
+  _heatmapLayer.map = _mapView;
 }
 - (void)setGradient:(GMUGradient*)gradient {
   [_heatmapLayer setGradient:gradient];
   [_heatmapLayer clearTileCache];
+  _heatmapLayer.map = _mapView;
 }
 - (void)setPoints:(NSArray<GMUWeightedLatLng*>*)points {
   [_heatmapLayer setWeightedData:points];
   [_heatmapLayer clearTileCache];
+  _heatmapLayer.map = _mapView;
 }
 - (void)setOpacity:(double)opacity {
   _heatmapLayer.opacity = opacity;
   [_heatmapLayer clearTileCache];
+  _heatmapLayer.map = _mapView;
 }
 
 @end
@@ -74,7 +78,7 @@ static NSArray<GMUWeightedLatLng*>* ToPoints(NSArray* data) {
 static NSArray<UIColor*>* ToColors(NSArray* data) {
   NSMutableArray* colors = [[NSMutableArray alloc] init];
   for (unsigned i = 0; i < [data count]; i++) {
-    UIColor* color = data[i];
+    UIColor* color = [FLTGoogleMapJsonConversions toColor:data[i]];
     [colors addObject:color];
   }
 
